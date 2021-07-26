@@ -22,10 +22,11 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
+
 RUN a2enmod rewrite && a2enmod headers
 RUN composer install
-RUN php artisan key:generate && \
-    php artisan migrate && php artisan passport:install && php artisan db:seed
+RUN php artisan optimize:clear && php artisan cache:clear && php artisan key:generate
+RUN chmod -R 777 ./storage
 
 SHELL ["/bin/bash", "-l", "-euxo", "pipefail", "-c"]
 

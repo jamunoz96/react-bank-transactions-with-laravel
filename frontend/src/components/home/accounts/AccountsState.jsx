@@ -27,12 +27,13 @@ const AccountsState = () => {
                     <Col md={{ span: 4 }}>
                         <Card bg="light">
                             <Card.Body>
-                                <Card.Title><b>Cuenta: {account.number}</b></Card.Title>
+                                <Card.Title><b >Cuenta: <p className="text-secondary"> {account.number} </p></b></Card.Title>
                                 <Card.Text>
                                     <b>Saldo:</b> {account.money}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
+                        <br></br>
                     </Col>
                 );
             })}

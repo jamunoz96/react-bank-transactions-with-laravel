@@ -37,7 +37,7 @@ export const signIn = (identification, password) => {
       })
       .catch((error) => {
         console.log(error.response);
-        toast.error(error.response?.data, {
+        toast.error(error.response?.data.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       });

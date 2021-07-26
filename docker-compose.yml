@@ -2,30 +2,31 @@
 version: "3.9"
 services:
 
+    mysql_bank:
+        container_name: mysql_bank
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: react_bank
+        image: mariadb
+        ports:
+            - '3306:3306'
+
     server_bank:
         build: ./backend
-        container_name: back_end
+        container_name: server_bank
+        restart: on-failure:10
         ports:
             - '5000:80'
         depends_on:
             - mysql_bank
-
-    mysql_bank:
-        container_name: mysql_db
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: react_bank
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
-        image: mysql:5.7
-        ports:
-            - '3306:3306'
-
-    client-bank:
+        dns: 8.8.8.8
+        command: sh ./commands.sh
+        
+    client_bank:
         build: ./frontend
-        container_name: front-end
+        container_name: client_bank
         ports:
             - '3000:3000'
         depends_on:
-            - server-bank
+            - server_bank
         stdin_open: true

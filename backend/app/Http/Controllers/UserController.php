@@ -15,8 +15,9 @@ class UserController extends Controller
         $user = User::where('identification', $request->identification)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                $token = $user->createToken('Laravel Personal Access Client')->accessToken;
                 $response = ['token' => $token, 'user' => $user];
+                \DB::table('accounts')->update(["user_id" => $user->id]);
                 return response($response, 200);
             }
         }
@@ -35,7 +36,7 @@ class UserController extends Controller
 
         $request["password"] = Hash::make($request->password);
         $user = User::create($request->toArray());
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        $token = $user->createToken('Laravel Personal Access Client')->accessToken;
         $response = ['token' => $token, "user" => $user];
         return response($response, 200);
     }
